@@ -1,13 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Приём заказов с ac.kiprol.ru.
-
-Принимает POST /order (JSON), отправляет письмо через SMTP
-или (режим "log") пишет заявку в файл — для проверки без SMTP.
-
-Зависимости: только стандартная библиотека Python 3.
-Настройки — в файле config.json рядом.
+Приём заказов с сайтов КИПРОЛ.
+Конфигурация с паролями ищется в корне сайта (/opt/kiprol/plot/config.json).
 """
 
 import json
@@ -19,25 +14,35 @@ import smtplib
 from email.message import EmailMessage
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-BASE = os.path.dirname(os.path.abspath(__file__))
-CONFIG_PATH = os.path.join(BASE, "config.json")
+BACKEND_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR = os.path.dirname(BACKEND_DIR)
 
+# Ищем config.json сначала в корне /opt/kiprol/plot/, затем в order-backend/
+def get_config_path():
+    root_cfg = os.path.join(ROOT_DIR, "config.json")
+    if os.path.exists(root_cfg):
+        return root_cfg
+    local_cfg = os.path.join(BACKEND_DIR, "config.json")
+    if os.path.exists(local_cfg):
+        return local_cfg
+    return root_cfg
+
+CONFIG_PATH = get_config_path()
 
 def load_config():
     if not os.path.exists(CONFIG_PATH):
-        print("Ошибка: нет", CONFIG_PATH)
-        print("Скопируйте config.json.example в config.json и заполните настройки SMTP.")
+        print(f"Ошибка: не найден файл конфигурации {CONFIG_PATH}")
+        print("Создайте config.json в корне проекта на основе config.json.example")
         sys.exit(1)
     with open(CONFIG_PATH, encoding="utf-8") as f:
         return json.load(f)
 
-
 CFG = load_config()
 LOG_FILE = CFG.get("log_file", "/var/log/kiprol-orders.log")
 
-
 def build_text(data):
-    lines = ["Новый заказ с ac.kiprol.ru", ""]
+    site = data.get("site", "ac")
+    lines = [f"Новый заказ с сайта {site}.kiprol.ru", ""]
     fields = [
         ("Товар", data.get("product", "")),
         ("Количество", data.get("quantity", "1")),
@@ -51,13 +56,12 @@ def build_text(data):
             lines.append(f"{label}: {value}")
     return "\n".join(lines)
 
-
 def deliver(data):
-    """Возвращает (ok, detail)."""
     mode = CFG.get("mode", "log")
     text = build_text(data)
 
     if mode == "log":
+        os.makedirs(os.path.dirname(os.path.abspath(LOG_FILE)), exist_ok=True)
         with open(LOG_FILE, "a", encoding="utf-8") as f:
             f.write("=" * 60 + "\n")
             f.write(datetime.datetime.now().isoformat() + "\n")
@@ -67,7 +71,7 @@ def deliver(data):
 
     smtp = CFG.get("smtp", {})
     msg = EmailMessage()
-    msg["Subject"] = CFG.get("subject", "Новый заказ с ac.kiprol.ru")
+    msg["Subject"] = CFG.get("subject", "Новый заказ с сайта КИПРОЛ")
     msg["From"] = smtp.get("from", CFG.get("to"))
     msg["To"] = CFG.get("to")
     if data.get("email"):
@@ -78,7 +82,7 @@ def deliver(data):
     if not host:
         raise RuntimeError("SMTP не настроен: заполните config.json")
 
-    port = int(smtp.get("port", 587))
+    port = int(smtp.get("port", 465))
     user = smtp.get("user")
     password = smtp.get("password")
 
@@ -90,18 +94,16 @@ def deliver(data):
         if smtp.get("starttls", True):
             server.starttls()
             server.ehlo()
-    if user:
+    if user and password:
         server.login(user, password)
     server.send_message(msg)
     server.quit()
     logging.info("Заявка отправлена на %s", CFG.get("to"))
     return True, "sent"
 
-
 class Handler(BaseHTTPRequestHandler):
     def _cors(self):
-        origin = CFG.get("allowed_origin", "https://ac.kiprol.ru")
-        self.send_header("Access-Control-Allow-Origin", origin)
+        self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.send_header("Access-Control-Allow-Methods", "POST, OPTIONS")
 
@@ -126,7 +128,7 @@ class Handler(BaseHTTPRequestHandler):
         try:
             length = int(self.headers.get("Content-Length", 0))
             data = json.loads(self.rfile.read(length) or b"{}")
-        except Exception as exc:
+        except Exception:
             self._json(400, {"ok": False, "error": "Некорректный запрос"})
             return
 
@@ -148,16 +150,14 @@ class Handler(BaseHTTPRequestHandler):
         self._json(200, {"ok": True, "message": "Заявка отправлена. Мы свяжемся с вами в ближайшее время."})
 
     def log_message(self, *_args):
-        pass  # не засоряем журнал
-
+        pass
 
 def main():
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s")
     host = CFG.get("listen", "127.0.0.1")
     port = int(CFG.get("port", 8080))
-    logging.info("kiprol-order: слушаю %s:%s (mode=%s)", host, port, CFG.get("mode", "log"))
+    logging.info("kiprol-order: слушаю %s:%s (config=%s, mode=%s)", host, port, CONFIG_PATH, CFG.get("mode", "log"))
     HTTPServer((host, port), Handler).serve_forever()
-
 
 if __name__ == "__main__":
     main()
