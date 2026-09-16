@@ -1,0 +1,15 @@
+[Unit]
+Description=Kiprol order email backend (kiprol plot)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/kiprol/plot/order-backend
+ExecStart=/usr/bin/python3 /opt/kiprol/plot/order-backend/order.py
+Restart=always
+RestartSec=3
+# SMTP-пароль лежит в config.json (600) — доступ только root
+User=root
+
+[Install]
+WantedBy=multi-user.target

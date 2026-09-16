@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>НПО КИПРОЛ — климатическое оборудование</title>
+<meta name="description" content="Климатическое оборудование НПО КИПРОЛ: промышленные кондиционеры, тепловые насосы, тепловые пушки. Поставка, монтаж, сервис.">
+<meta name="keywords" content="">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://ac.kiprol.ru/">
+<meta name="theme-color" content="#0a1120">
+
+<!-- Open Graph (обновляется из site.json через app.js) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="НПО КИПРОЛ">
+<meta property="og:title" content="НПО КИПРОЛ">
+<meta property="og:description" content="Климатическое оборудование НПО КИПРОЛ.">
+<meta property="og:url" content="https://ac.kiprol.ru/">
+<meta property="og:image" content="">
+<meta property="og:locale" content="ru_RU">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="stylesheet" href="style.css?v=7">
+
+<!-- Структурированные данные: Организация (общее для всех поддоменов) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "НПО КИПРОЛ",
+  "email": "info@kiprol.ru",
+  "telephone": "+7 (927) 212-39-34",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Тольятти",
+    "addressRegion": "Самарская область",
+    "addressCountry": "RU"
+  }
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="#" id="brand-top" title="Наверх страницы">
+      <img class="logo-img" src="logo.png" width="528" height="128" alt="НПО КИПРОЛ — наполняем энергией">
+      <span class="brand-sub" id="brand-sub">климатическое оборудование</span>
+    </a>
+    <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="header-panel">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="header-panel" id="header-panel">
+      <nav class="topnav" aria-label="Основная навигация">
+        <a href="#catalog">Каталог</a>
+        <a href="#why">Преимущества</a>
+        <a href="#steps">Как работаем</a>
+        <a href="#faq">Вопросы</a>
+        <a href="#order">Заявка</a>
+      </nav>
+      <div class="header-contacts">
+        <a class="phone" href="tel:+79272123934">+7 (927) 212-39-34</a>
+        <a class="mail" href="mailto:info@kiprol.ru">info@kiprol.ru</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-bg" id="hero-bg" role="img" aria-label=""></div>
+  <nav class="breadcrumbs wrap" aria-label="Хлебные крошки">
+    <span id="crumb">Каталог</span>
+  </nav>
+  <div class="wrap hero-inner">
+    <span class="hero-kicker" id="hero-kicker"></span>
+    <h1 id="hero-title"></h1>
+    <p class="lead" id="hero-lead"></p>
+    <div class="hero-price">
+      <span class="hp-label" id="hero-price-label">Цены</span>
+      <span class="hp-value" id="hero-price-value"></span>
+    </div>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#catalog">Смотреть каталог</a>
+      <a class="btn btn-ghost" href="#order">Оставить заявку</a>
+    </div>
+    <ul class="hero-stats" id="hero-stats"></ul>
+  </div>
+</section>
+
+<div class="promo wrap">
+  <div class="promo-inner">
+    <span class="promo-emoji" id="promo-emoji">🎁</span>
+    <div class="promo-text" id="promo-text"></div>
+    <a class="btn btn-primary" id="promo-button" href="#order">Получить расчёт</a>
+  </div>
+</div>
+
+<main class="wrap">
+  <section id="catalog" aria-label="Каталог">
+    <div class="section-head">
+      <div>
+        <div class="kicker" id="catalog-kicker">Каталог</div>
+        <h2 id="catalog-title"></h2>
+      </div>
+      <div class="filters" id="filters" role="tablist" aria-label="Фильтр по типу"></div>
+    </div>
+    <div class="grid" id="catalog-grid"></div>
+    <p class="catalog-note" id="catalog-note"></p>
+  </section>
+
+  <section id="why" aria-label="Преимущества">
+    <div class="section-head">
+      <div>
+        <div class="kicker" id="why-kicker">Почему мы</div>
+        <h2 id="why-title"></h2>
+      </div>
+    </div>
+    <div class="grid g3" id="why-cards"></div>
+  </section>
+
+  <section id="steps" aria-label="Как мы работаем">
+    <div class="section-head">
+      <div>
+        <div class="kicker" id="steps-kicker">Процесс</div>
+        <h2 id="steps-title"></h2>
+      </div>
+    </div>
+    <div class="steps" id="steps"></div>
+  </section>
+
+  <section class="cta-strip">
+    <div class="cta-bg" id="cta-bg" role="img" aria-label=""></div>
+    <div class="cta-content">
+      <h2 id="cta-title"></h2>
+      <p id="cta-text"></p>
+      <a class="btn btn-primary" href="#order">Связаться с нами →</a>
+    </div>
+  </section>
+
+  <section id="faq" aria-label="Частые вопросы">
+    <div class="section-head">
+      <div>
+        <div class="kicker" id="faq-kicker">Вопросы и ответы</div>
+        <h2 id="faq-title"></h2>
+      </div>
+    </div>
+    <div class="faq" id="faq"></div>
+  </section>
+
+  <section id="order" aria-label="Оставить заявку">
+    <div class="order-card">
+      <div class="order-info">
+        <div class="kicker">Заказ</div>
+        <h2 id="order-title">Оставить заявку</h2>
+        <p id="order-text"></p>
+        <ul class="order-contacts">
+          <li>📞 <a href="tel:+79272123934">+7 (927) 212-39-34</a></li>
+          <li>✉️ <a href="mailto:info@kiprol.ru">info@kiprol.ru</a></li>
+          <li>🕘 Пн–Пт 7:00–17:00 МСК</li>
+        </ul>
+      </div>
+      <form id="order-form" class="order-form" novalidate>
+        <label>Товар
+          <select name="product" id="product" required></select>
+        </label>
+        <div class="row">
+          <label>Количество
+            <input type="number" name="quantity" id="quantity" value="1" min="1" max="999">
+          </label>
+          <label>Ваше имя *
+            <input type="text" name="name" id="name" required autocomplete="name" placeholder="Иван">
+          </label>
+        </div>
+        <div class="row">
+          <label>Телефон *
+            <input type="tel" name="phone" id="phone" required autocomplete="tel" placeholder="+7 (___) ___-__-__">
+          </label>
+          <label>Email
+            <input type="email" name="email" id="email" autocomplete="email" placeholder="you@example.com">
+          </label>
+        </div>
+        <label>Комментарий
+          <textarea name="comment" id="comment" rows="3" placeholder="Площадь объекта, режим работы, город доставки…"></textarea>
+        </label>
+        <label class="consent">
+          <input type="checkbox" id="consent" required checked>
+          Согласен на обработку персональных данных
+        </label>
+        <button type="submit" class="btn btn-primary" id="submit-btn">Отправить заявку</button>
+        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" id="contacts">
+  <div class="wrap footer-grid">
+    <div>
+      <div class="brand footer-brand">
+        <img class="logo-img logo-footer" src="logo.png" width="528" height="128" alt="НПО КИПРОЛ — наполняем энергией">
+      </div>
+      <p class="footer-about" id="footer-about"></p>
+    </div>
+    <div>
+      <h4>Каталог</h4>
+      <ul id="footer-catalog"></ul>
+    </div>
+    <div>
+      <h4>Контакты</h4>
+      <ul>
+        <li><a href="tel:+79272123934">+7 (927) 212-39-34</a></li>
+        <li><a href="mailto:info@kiprol.ru">info@kiprol.ru</a></li>
+        <li>Россия, Самарская обл., г. Тольятти</li>
+        <li>Пн–Пт 7:00–17:00 МСК</li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <span id="footer-copy">© 2026 НПО КИПРОЛ</span>
+    <span id="footer-site"></span>
+  </div>
+</footer>
+
+<script src="app.js?v=8"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "listen": "127.0.0.1",
+  "port": 8080,
+  "mode": "log",
+  "log_file": "/opt/kiprol/plot/logs/orders.log",
+  "allowed_origin": "https://ac.kiprol.ru",
+  "subject": "Новый заказ с ac.kiprol.ru",
+  "to": "info@kiprol.ru",
+  "smtp": {
+    "host": "smtp.hosting.reg.ru",
+    "port": 465,
+    "starttls": false,
+    "user": "info@kiprol.ru",
+    "password": "ЗАМЕНИТЕ_ПАРОЛЬ",
+    "from": "info@kiprol.ru"
+  }
+}
